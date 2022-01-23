@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if tasks|length < 1%}
+    <h2>No task here. Let's create one!</h2>
+    {% else %}
+    <h2 class="table-title">TODO List</h2>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-1">No</div>
+        <div class="col col-2">Task</div>
+        <div class="col col-3">Added</div>
+        <div class="col col-4">Actions</div>
+      </li>
+      {% for task in tasks %} 
+        <li class="table-row">
+            <div class="col col-1" data-label="Job Id">{{ task.id }}</div>
+            <div class="col col-2" data-label="Task">{{ task.content }}</div>
+            <div class="col col-3" data-label="Added">{{ task.date_created.date() }}</div>
+            <div class="col col-4" data-label="Actions">
+                <div>
+                    <a href="/delete/{{task.id}}">
+                    <input class="del-btn" value="DELETE"></a>
+                </div>
+                <div>
+                    <a href="/update/{{task.id}}">
+                    <input class="upd-btn" value="UPDATE"></a>
+                </div>
+            </div>
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+<form action="/" method="POST">
+    <input type="text" name="content" id="content" placeholder="Add a task...">
+    <br>
+    <input class="submit" type="submit" value="Add Task">
+</form>
+{% endblock %}
